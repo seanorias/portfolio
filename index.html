@@ -729,42 +729,6 @@
       animation: pulse 2s infinite;
     }
 
-    /* Cursor Chat Bubble */
-    .cursor-chat {
-      position: fixed;
-      background: var(--secondary-black);
-      border: 1px solid var(--accent-blue);
-      border-radius: 15px;
-      padding: 8px 12px;
-      color: var(--text-white);
-      font-size: 0.8rem;
-      font-weight: 500;
-      pointer-events: none;
-      z-index: 10000;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
-    }
-
-    .cursor-chat::before {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 20px;
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid var(--accent-blue);
-    }
-
-    .cursor-chat.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
     @keyframes pulse {
       0% {
         transform: translate(-50%, -50%) scale(1);
@@ -1010,48 +974,16 @@
   <script>
     // Cursor Trail Effect
     const cursorTrail = document.getElementById('cursorTrail');
-    const cursorChat = document.getElementById('cursorChat');
     let mouseX = 0;
     let mouseY = 0;
     let trailX = 0;
     let trailY = 0;
-    let chatVisible = false;
-    let chatShown = false; // Track if chat has been shown
-    let chatTimeout;
 
     // Track mouse movement
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      
-      // Show chat bubble only once after a short delay
-      if (!chatVisible && !chatShown) {
-        clearTimeout(chatTimeout);
-        chatTimeout = setTimeout(() => {
-          showChatBubble();
-        }, 1000); // Show after 1 second of mouse movement
-      }
     });
-
-    // Show chat bubble
-    function showChatBubble() {
-      if (!chatVisible && !chatShown) {
-        chatVisible = true;
-        chatShown = true; // Mark as shown so it won't appear again
-        cursorChat.classList.add('show');
-        
-        // Hide chat bubble after 4 seconds
-        setTimeout(() => {
-          hideChatBubble();
-        }, 4000);
-      }
-    }
-
-    // Hide chat bubble
-    function hideChatBubble() {
-      chatVisible = false;
-      cursorChat.classList.remove('show');
-    }
 
     // Smooth cursor trail animation
     function animateCursorTrail() {
@@ -1067,12 +999,6 @@
       cursorTrail.style.left = trailX - 15 + 'px';
       cursorTrail.style.top = trailY - 15 + 'px';
       
-      // Update chat bubble position (appears directly on mouse cursor)
-      if (chatVisible) {
-        cursorChat.style.left = mouseX + 15 + 'px';
-        cursorChat.style.top = mouseY - 30 + 'px';
-      }
-      
       // Continue animation
       requestAnimationFrame(animateCursorTrail);
     }
@@ -1080,11 +1006,9 @@
     // Start cursor trail animation
     animateCursorTrail();
 
-    // Hide cursor trail and chat when mouse leaves window
+    // Hide cursor trail when mouse leaves window
     document.addEventListener('mouseleave', () => {
       cursorTrail.style.opacity = '0';
-      hideChatBubble();
-      clearTimeout(chatTimeout);
     });
 
     // Show cursor trail when mouse enters window
