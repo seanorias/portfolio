@@ -703,45 +703,26 @@
       animation: fadeInUp 0.6s ease-out;
     }
 
-    /* Cursor Trail Effect */
+    /* Cursor Trail Effect - Flashlight */
     .cursor-trail {
       position: fixed;
-      width: 30px;
-      height: 30px;
+      width: 300px;
+      height: 300px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 100%);
+      background: radial-gradient(
+        circle,
+        rgba(59, 130, 246, 0.35) 0%,
+        rgba(59, 130, 246, 0.20) 20%,
+        rgba(59, 130, 246, 0.12) 40%,
+        rgba(59, 130, 246, 0.06) 60%,
+        rgba(59, 130, 246, 0.02) 80%,
+        transparent 100%
+      );
       pointer-events: none;
       z-index: 9999;
-      transition: transform 0.1s ease-out;
+      transition: transform 0.2s ease-out;
       mix-blend-mode: screen;
-    }
-
-    .cursor-trail::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 8px;
-      height: 8px;
-      background: rgba(59, 130, 246, 0.6);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.6;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.5);
-        opacity: 0.3;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.6;
-      }
+      filter: blur(20px);
     }
 
     /* Hide default cursor on interactive elements */
@@ -995,9 +976,9 @@
       trailX += diffX * 0.1;
       trailY += diffY * 0.1;
       
-      // Update cursor trail position
-      cursorTrail.style.left = trailX - 15 + 'px';
-      cursorTrail.style.top = trailY - 15 + 'px';
+      // Update cursor trail position (centered on cursor)
+      cursorTrail.style.left = trailX - 150 + 'px';
+      cursorTrail.style.top = trailY - 150 + 'px';
       
       // Continue animation
       requestAnimationFrame(animateCursorTrail);
